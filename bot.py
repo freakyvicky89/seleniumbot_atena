@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 from random import randrange
 from time import sleep
 from selenium import webdriver
@@ -44,4 +45,5 @@ sleep(1)
 driver.switch_to.active_element.send_keys(Keys.ENTER)
 
 sleep(10)
+driver.save_screenshot(str(datetime.timestamp(datetime.now())) + ".png")
 driver.close()
