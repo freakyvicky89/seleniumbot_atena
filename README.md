@@ -1,2 +1,2 @@
 # seleniumbot_atena
-My educational selenium bot.
+Meet Atena, the marxist educational selenium wp.pl comment bot.
