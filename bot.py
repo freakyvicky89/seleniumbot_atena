@@ -17,6 +17,9 @@ if not development:
     driver_options.add_argument('headless')
 
 driver = webdriver.Chrome(options=driver_options)
+
+sleep(randrange(0, 1800))
+
 driver.get('https://www.wp.pl/')
 sleep(2)
 driver.find_element_by_xpath('//button[contains(.,"AKCEPTUJ")]').click()
