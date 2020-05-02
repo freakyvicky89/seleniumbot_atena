@@ -1,10 +1,10 @@
 import sys
+from bot_quotes import quotes
 from datetime import datetime
-from random import randrange
+from random import choice, randrange
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from wikiquotes import random_quote
 
 if len(sys.argv) > 1 and sys.argv[1]:
     development = True
@@ -18,7 +18,8 @@ if not development:
 
 driver = webdriver.Chrome(options=driver_options)
 
-sleep(randrange(0, 1800))
+if not development:
+    sleep(randrange(0, 1800))
 
 driver.get('https://www.wp.pl/')
 sleep(2)
@@ -27,7 +28,7 @@ sleep(2)
 news_links = driver.find_elements_by_xpath('//div[@data-st-area="Wiadomosci"]//a')
 news_links[0].location_once_scrolled_into_view
 sleep(1)
-news_links[randrange(0, len(news_links))].click()
+choice(news_links).click()
 sleep(2)
 
 comment_section = driver.find_elements_by_xpath('//div[contains(.,"Podziel się opinią")]')[-1]
@@ -39,7 +40,7 @@ sleep(2)
 comment_section.location_once_scrolled_into_view
 sleep(1)
 
-driver.switch_to.active_element.send_keys(random_quote("Karl Marx","en"))
+driver.switch_to.active_element.send_keys(choice(quotes))
 sleep(1)
 driver.switch_to.active_element.send_keys(Keys.TAB)
 sleep(1)
