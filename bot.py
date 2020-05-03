@@ -29,7 +29,9 @@ news_links = driver.find_elements_by_xpath('//div[@data-st-area="Wiadomosci"]//a
 news_links[0].location_once_scrolled_into_view
 sleep(1)
 choice(news_links).click()
-sleep(2)
+sleep(1)
+driver.switch_to.window(driver.window_handles[0])
+sleep(1)
 
 comment_section = driver.find_elements_by_xpath('//div[contains(.,"Podziel się opinią")]')[-1]
 comment_section.location_once_scrolled_into_view
