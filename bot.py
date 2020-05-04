@@ -1,6 +1,7 @@
+import credentials
 import sys
-from bot_quotes import quotes
 from datetime import datetime
+from pymongo import MongoClient
 from random import choice, randrange
 from time import sleep
 from selenium import webdriver
@@ -11,15 +12,24 @@ if len(sys.argv) > 1 and sys.argv[1]:
 else:
     development = False
 
+if not development:
+    sleep(randrange(0, 1800))
+
+if development:
+    db_client = MongoClient('mongodb://%s:%s@192.168.0.214/cytaty' % (credentials.user, credentials.passwd))
+else:
+    db_client = MongoClient('mongodb://%s:%s@127.0.0.1/cytaty' % (credentials.user, credentials.passwd))
+
+db = db_client.get_database('cytaty')
+dao = db['autorzy']
+random_author = dao.find().limit(-1).skip(randrange(dao.count({}))).next()
+
 driver_options = webdriver.ChromeOptions()
 
 if not development:
     driver_options.add_argument('headless')
 
 driver = webdriver.Chrome(options=driver_options)
-
-if not development:
-    sleep(randrange(0, 1800))
 
 driver.get('https://www.wp.pl/')
 sleep(2)
@@ -42,11 +52,11 @@ sleep(2)
 comment_section.location_once_scrolled_into_view
 sleep(1)
 
-driver.switch_to.active_element.send_keys(choice(quotes))
+driver.switch_to.active_element.send_keys(choice(random_author['cytaty']))
 sleep(1)
 driver.switch_to.active_element.send_keys(Keys.TAB)
 sleep(1)
-driver.switch_to.active_element.send_keys("Karol" + str(randrange(1950,2000)))
+driver.switch_to.active_element.send_keys(random_author['nazwa'])
 sleep(1)
 driver.switch_to.active_element.send_keys(Keys.ENTER)
 
