@@ -15,10 +15,8 @@ else:
 if not development:
     sleep(randrange(0, 1800))
 
-if development:
-    db_client = MongoClient('mongodb://%s:%s@192.168.0.214/cytaty' % (credentials.user, credentials.passwd))
-else:
-    db_client = MongoClient('mongodb://%s:%s@127.0.0.1/cytaty' % (credentials.user, credentials.passwd))
+db_client = MongoClient(credentials.cluster_string)
+
 
 db = db_client.get_database('cytaty')
 dao = db['autorzy']
